@@ -50,7 +50,7 @@ export default function SortView(
           }
           
           return (
-            <SortValue number={a} height={height} color={color} key={a} />
+            <SortValue index={index} height={height} color={color} key={index} />
           );
         }) :
         <div className='welcome-container'>

@@ -11,7 +11,7 @@ export default function Header() : JSX.Element  {
         <FontAwesomeIcon icon={faChartSimple} className={'heading-icon'}/>
         <span className={'heading-text'}>Sorting Visualiser</span>
       </div>
-      <div className={'header-right'}>
+      <div className={'header-right'} onClick={() => {window.open('https://github.com/Sophie3lj/SortingVisualisationApp/tree/main');}}>
         <span className={'sub-heading-text'}>View the code on GitHub...</span>
         <FontAwesomeIcon icon={faGithubSquare} className={'sub-heading-icon'}/>
       </div>

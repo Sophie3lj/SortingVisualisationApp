@@ -3,16 +3,16 @@ import './sort-view.css';
 
 export default function SortValue(
     {
-        number,
+        index,
         height,
         color,
     } : {
-        number : number;
+        index : number;
         height : number;
         color : string;
     }
 ) : JSX.Element {
   return (
-    <div key={number} className={'sort-value'} style={{height : `${height}%`, backgroundColor : color}}></div>
+    <div key={index} className={'sort-value'} style={{height : `${height}%`, backgroundColor : color}}></div>
   )
 }

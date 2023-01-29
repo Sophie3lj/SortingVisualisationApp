@@ -182,6 +182,91 @@ export default function SortingVisualiser() : JSX.Element  {
     setUpdateView(!updateView);
   }
 
+  // merge sort algorithm
+  const mergeSortStart = (array : Array<number>) => {
+    let an : Array<{array : Array<number>, current : number, compare : number}> = [];
+    let current = 0;
+    let compare = 0;
+
+    an.push({
+      current : -1,
+      compare : -1,
+      array : Array.from(array),
+    });
+    
+    mergeSort(array, 0, array.length-1, an);
+
+    an.push({
+      current : -1,
+      compare : -1,
+      array : Array.from(array),
+    });
+
+    setAnimations(an);
+    setUpdateView(!updateView);
+  }
+
+  const mergeSort = (array : Array<number>, left : number, right : number, an : Array<{array : Array<number>, current : number, compare : number}>) => {
+    if (left >= right) return;
+
+    const mid = Math.floor((left + right) / 2);
+
+    mergeSort(array, left, mid, an);
+    mergeSort(array, mid+1, right, an);
+    merge(array, left, mid, right, an);
+  }
+
+  const merge = (array : Array<number>, left : number, mid : number, right : number, an : Array<{array : Array<number>, current : number, compare : number}>) => {
+    let leftArray : Array<number> = new Array(mid - left);
+    let rightArray : Array<number> = new Array(right - (mid + 1));
+
+    for (let i = left; i <= mid; i++) {
+      leftArray[i-left] = array[i];
+      array[i] = 0;
+    }
+
+    for (let i = mid+1; i <= right; i++) {
+      rightArray[i-(mid+1)] = array[i];
+      array[i] = 0;
+    }
+
+    an.push({
+      current : -1,
+      compare : -1,
+      array : Array.from(array),
+    });
+
+    let l = 0;
+    let r = 0;
+
+    for (let i = left; i <= right; i++) {
+      if (l < leftArray.length && r < rightArray.length && leftArray[l] < rightArray[r]) {
+        array[i] = leftArray[l];
+        l++;
+      }
+      else if (l < leftArray.length && r < rightArray.length && leftArray[l] > rightArray[r]) {
+        array[i] = rightArray[r];
+        r++
+      }
+      else if (l < leftArray.length && r >= rightArray.length) {
+        array[i] = leftArray[l];
+        l++;
+      }
+      else if (l >= leftArray.length && r < rightArray.length) {
+        array[i] = rightArray[r];
+        r++;
+      }
+
+      an.push({
+        current : i,
+        compare : -1,
+        array : Array.from(array),
+      });
+
+      console.log(Array.from(array));
+    }
+  }
+
   const sort = () => {
     let array = arrayRange(numValues);
     array = shuffleArray(array);
@@ -189,6 +274,7 @@ export default function SortingVisualiser() : JSX.Element  {
     if (algorithm == 1) selectionSort(array);
     else if (algorithm == 2) bubbleSort(array);
     else if (algorithm == 3) insertionSort(array);
+    else if (algorithm == 4) mergeSortStart(array);
   }
 
   return (

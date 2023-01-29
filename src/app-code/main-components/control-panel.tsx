@@ -31,6 +31,7 @@ export default function ControlPanel(
             <option value={1}>Selection Sort</option>
             <option value={2}>Bubble Sort</option>
             <option value={3}>Insertion Sort</option>
+            <option value={4}>Merge Sort</option>
           </Form.Select>
       </div>
       <div className={'panel-col'}>
