@@ -10,12 +10,12 @@ export default function SortView(
     speed,
   } : {
     updated : boolean;
-    animations : Array<{array : Array<number>, current : number, compare : number}>;
+    animations : Array<{array : Array<number>, current : number, compare : number, compare2? : number}>;
     speed : number;
   }
 ) : JSX.Element {
 
-  const [ann, setAnn] = useState<{array : Array<number>, current : number, compare : number}>({
+  const [ann, setAnn] = useState<{array : Array<number>, current : number, compare : number, compare2? : number}>({
     array : [],
     current : 0,
     compare : 0,
@@ -44,9 +44,11 @@ export default function SortView(
           if (index == ann.current) {
             color = '#fb6060';
           }
-  
-          if (index == ann.compare) {
+          else if (index == ann.compare) {
             color = '#fbd460';
+          }
+          else if (ann.compare2 != undefined && index == ann.compare2) {
+            color = '#fbfb60';
           }
           
           return (

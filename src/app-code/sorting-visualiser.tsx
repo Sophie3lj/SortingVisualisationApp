@@ -31,10 +31,10 @@ export default function SortingVisualiser() : JSX.Element  {
   }
 
   const [updateView, setUpdateView] = useState<boolean>(false);
-  const [animations, setAnimations] = useState<Array<{array : Array<number>, current : number, compare : number}>>([]);
+  const [animations, setAnimations] = useState<Array<{array : Array<number>, current : number, compare : number, compare2? : number}>>([]);
   const [algorithm, setAlgorithm] = useState<number>(1);
   const [numValues, setNumValues] = useState<number>(100);
-  const [speed, setSpeed] = useState<number>(1);
+  const [speed, setSpeed] = useState<number>(10);
 
   // selection sort algorithm
   const selectionSort = (array : Array<number>) => {
@@ -52,7 +52,7 @@ export default function SortingVisualiser() : JSX.Element  {
       current = i;
       an.push({
         current : current,
-        compare : compare,
+        compare : -1,
         array : Array.from(array),
       });
       for (let j = i+1; j < array.length; j++) {
@@ -75,8 +75,8 @@ export default function SortingVisualiser() : JSX.Element  {
 
       [array[i], array[current]] = [array[current], array[i]];
       an.push({
-        current : current,
-        compare : compare,
+        current : -1,
+        compare : -1,
         array : Array.from(array),
       });
     }
@@ -149,11 +149,13 @@ export default function SortingVisualiser() : JSX.Element  {
       current = i;
       compare = i - 1;
 
-      an.push({
-        current : current,
-        compare : compare,
-        array : Array.from(array),
-      });
+      if (array[current] >= array[compare]) {
+        an.push({
+          current : current,
+          compare : compare,
+          array : Array.from(array),
+        });
+      }
       
       while (array[current] < array[compare]) {
         an.push({
@@ -267,6 +269,106 @@ export default function SortingVisualiser() : JSX.Element  {
     }
   }
 
+  // quick sort algorithm
+  const quickSortStart = (array : Array<number>) => {
+    let an : Array<{array : Array<number>, current : number, compare : number, compare2? : number}> = [];
+
+    an.push({
+      current : -1,
+      compare : -1,
+      array : Array.from(array),
+    });
+
+    console.log ("start");
+    
+    quickSort(array, 0, array.length-1, an);
+
+    console.log("end");
+
+    an.push({
+      current : -1,
+      compare : -1,
+      array : Array.from(array),
+    });
+
+    setAnimations(an);
+    setUpdateView(!updateView);
+  }
+
+  const quickSort = (array : Array<number>, left : number, right : number, an : Array<{array : Array<number>, current : number, compare : number, compare2? : number}>) => {
+    if (left >= right) return;
+
+    console.log("in quick sort");
+
+    const part = partition(array, left, right-1, right, an);
+
+    quickSort(array, left, part-1, an);
+    quickSort(array, part+1, right, an);
+  }
+
+  const partition = (array : Array<number>, left : number, right : number, pivot : number, an : Array<{array : Array<number>, current : number, compare : number, compare2? : number}>) => {
+
+    do {
+      an.push({
+        current : pivot,
+        compare : left,
+        compare2 : right,
+        array : Array.from(array),
+      });
+      while (array[left] < array[pivot]) {
+        left++;
+        an.push({
+          current : pivot,
+          compare : left,
+          compare2 : right,
+          array : Array.from(array),
+        });
+      }
+
+      an.push({
+        current : pivot,
+        compare : left,
+        compare2 : right,
+        array : Array.from(array),
+      });
+      while (array[right] > array[pivot]) {
+        right--;
+        an.push({
+          current : pivot,
+          compare : left,
+          compare2 : right,
+          array : Array.from(array),
+        });
+      }
+      
+      if (left < right) {
+        [array[left], array[right]] = [array[right], array[left]];
+        an.push({
+          current : pivot,
+          compare : left,
+          compare2 : right,
+          array : Array.from(array),
+        });
+      }
+    } while (left < right);
+
+    an.push({
+      current : pivot,
+      compare : left,
+      array : Array.from(array),
+    });
+
+    [array[left], array[pivot]] = [array[pivot], array[left]];
+
+    an.push({
+      current : left,
+      compare : pivot,
+      array : Array.from(array),
+    });
+
+    return left;
+  }
+
   const sort = () => {
     let array = arrayRange(numValues);
     array = shuffleArray(array);
@@ -275,6 +377,7 @@ export default function SortingVisualiser() : JSX.Element  {
     else if (algorithm == 2) bubbleSort(array);
     else if (algorithm == 3) insertionSort(array);
     else if (algorithm == 4) mergeSortStart(array);
+    else if (algorithm == 5) quickSortStart(array);
   }
 
   return (

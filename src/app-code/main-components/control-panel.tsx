@@ -27,23 +27,25 @@ export default function ControlPanel(
           <Form.Label className={'label'}>
             Sorting Algorithm
           </Form.Label>
-          <Form.Select defaultValue={1} value={algorithm} onChange={selectAlgorithm}>
+          <Form.Select value={algorithm} onChange={selectAlgorithm}>
             <option value={1}>Selection Sort</option>
             <option value={2}>Bubble Sort</option>
             <option value={3}>Insertion Sort</option>
             <option value={4}>Merge Sort</option>
+            <option value={5}>Quick Sort</option>
           </Form.Select>
       </div>
       <div className={'panel-col'}>
           <Form.Label className={'label'}>Number of Values</Form.Label>
-          <Form.Control type="number" className={'number-input'} defaultValue={100} max={250} value={range} onChange={selectRange}></Form.Control>
+          <Form.Control type="number" className={'number-input'} max={250} value={range} onChange={selectRange}></Form.Control>
       </div>
       <div className={'panel-col'}>
           <Form.Label className={'label'}>Speed</Form.Label>
-          <Form.Select defaultValue={1} value={speed} onChange={selectSpeed}>
+          <Form.Select value={speed} onChange={selectSpeed}>
+            <option value={1000}>Very Slow</option>
             <option value={100}>Slow</option>
-            <option value={10}>Medium</option>
-            <option value={1}>Fast</option>
+            <option value={10}>Fast</option>
+            <option value={1}>Very Fast</option>
           </Form.Select>
       </div>
       <div className={'panel-col'}>
