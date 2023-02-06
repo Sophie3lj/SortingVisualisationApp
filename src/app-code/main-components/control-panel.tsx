@@ -11,6 +11,7 @@ export default function ControlPanel(
     selectSpeed,
     range,
     selectRange,
+    disabled,
   } : {
     onSort : () => void;
     algorithm : number;
@@ -19,6 +20,7 @@ export default function ControlPanel(
     selectSpeed : (e : React.ChangeEvent<HTMLSelectElement>) => void;
     range : number;
     selectRange : (e : React.ChangeEvent<any>) => void;
+    disabled : boolean;
   }
 ) : JSX.Element  {
   return (
@@ -50,7 +52,7 @@ export default function ControlPanel(
           </Form.Select>
       </div>
       <div className={'panel-col'}>
-          <button className={'button label'} onClick={onSort}>Sort!</button>
+          <button className={'button label'} onClick={onSort} disabled={disabled}>Sort!</button>
       </div>
     </div>
   );

@@ -82,10 +82,14 @@ select {
     padding-right: 15px;
 }
 
-.button:hover {
+.button:hover:enabled {
     cursor: pointer;
     background-color: rgba(97, 218, 251, 0.05);
     border-color: rgba(97, 218, 251, 0.8);
+}
+
+.button:disabled {
+    opacity: 0.5;
 }
 
 select:hover {

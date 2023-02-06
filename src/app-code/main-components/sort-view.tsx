@@ -8,10 +8,12 @@ export default function SortView(
     updated,
     animations,
     speed,
+    setAnimating,
   } : {
     updated : boolean;
     animations : Array<{array : Array<number>, current : number, compare : number, compare2? : number}>;
     speed : number;
+    setAnimating : (val : boolean) => void;
   }
 ) : JSX.Element {
 
@@ -23,8 +25,10 @@ export default function SortView(
 
   useEffect(() => {
     for (let i = 0; i < animations.length; i++) {
+      setAnimating(true);
       setTimeout(() => {
         setAnn(animations[i]);
+        if (i == animations.length-1) setAnimating(false);
       }, (speed * (i + 1)));
     }
   }, [updated, animations]);

@@ -35,6 +35,7 @@ export default function SortingVisualiser() : JSX.Element  {
   const [algorithm, setAlgorithm] = useState<number>(1);
   const [numValues, setNumValues] = useState<number>(100);
   const [speed, setSpeed] = useState<number>(10);
+  const [animating, setAnimating] = useState<boolean>(false);
 
   // selection sort algorithm
   const selectionSort = (array : Array<number>) => {
@@ -470,7 +471,9 @@ export default function SortingVisualiser() : JSX.Element  {
   return (
     <div className={'main'}>
       <Header />
-      <SortView animations={animations} speed={speed} updated={updateView} />
+      <SortView animations={animations} speed={speed} updated={updateView} setAnimating={(val : boolean) => {
+        setAnimating(val);
+      }} />
       <ControlPanel 
         onSort={sort} 
         algorithm={algorithm}
@@ -485,7 +488,8 @@ export default function SortingVisualiser() : JSX.Element  {
         selectRange={(e) => {
           if (e.target.value <= 250) setNumValues(e.target.value);
           else setNumValues(250);
-        }}/>
+        }}
+        disabled={animating}/>
     </div>
   );
 }
