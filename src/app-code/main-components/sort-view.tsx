@@ -22,10 +22,8 @@ export default function SortView(
   });
 
   useEffect(() => {
-    console.log(animations);
     for (let i = 0; i < animations.length; i++) {
       setTimeout(() => {
-        console.log(animations[i].array);
         setAnn(animations[i]);
       }, (speed * (i + 1)));
     }

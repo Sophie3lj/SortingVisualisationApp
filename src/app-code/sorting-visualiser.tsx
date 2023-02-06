@@ -264,8 +264,6 @@ export default function SortingVisualiser() : JSX.Element  {
         compare : -1,
         array : Array.from(array),
       });
-
-      console.log(Array.from(array));
     }
   }
 
@@ -278,12 +276,8 @@ export default function SortingVisualiser() : JSX.Element  {
       compare : -1,
       array : Array.from(array),
     });
-
-    console.log ("start");
     
     quickSort(array, 0, array.length-1, an);
-
-    console.log("end");
 
     an.push({
       current : -1,
@@ -297,8 +291,6 @@ export default function SortingVisualiser() : JSX.Element  {
 
   const quickSort = (array : Array<number>, left : number, right : number, an : Array<{array : Array<number>, current : number, compare : number, compare2? : number}>) => {
     if (left >= right) return;
-
-    console.log("in quick sort");
 
     const part = partition(array, left, right-1, right, an);
 
@@ -378,8 +370,6 @@ export default function SortingVisualiser() : JSX.Element  {
       compare : -1,
       array : Array.from(array),
     });
-
-    console.log ("start");
     
     buildHeap(array, an);
 
@@ -399,7 +389,7 @@ export default function SortingVisualiser() : JSX.Element  {
       });
       end--;
 
-      heapify(array, end, 0, an);
+      heapify(array, 0, end, an);
 
       an.push({
         current : -1,
@@ -407,8 +397,6 @@ export default function SortingVisualiser() : JSX.Element  {
         array : Array.from(array),
       });
     }
-
-    console.log("end");
 
     an.push({
       current : -1,
@@ -424,17 +412,17 @@ export default function SortingVisualiser() : JSX.Element  {
     const last = Math.floor(array.length / 2) - 1;
 
     for (let i = last; i >= 0; i--) {
-      heapify(array, array.length, i, an);
+      heapify(array, i, array.length, an);
     }
   }
 
-  const heapify = (array : Array<number>, end : number, root : number, an : Array<{array : Array<number>, current : number, compare : number, compare2? : number}>) => {
-    let largestIndex = root;
-    let left = root * 2 + 1;
-    let right = root * 2 + 2;
+  const heapify = (array : Array<number>, start : number, end : number, an : Array<{array : Array<number>, current : number, compare : number, compare2? : number}>) => {
+    let largestIndex = start;
+    let left = start * 2 + 1;
+    let right = start * 2 + 2;
 
     an.push({
-      current : root,
+      current : start,
       compare : left,
       compare2 : right,
       array : Array.from(array),
@@ -448,14 +436,14 @@ export default function SortingVisualiser() : JSX.Element  {
       largestIndex = right;
     }
 
-    if (largestIndex != root) {
+    if (largestIndex != start) {
       an.push({
-        current : root,
+        current : start,
         compare : largestIndex,
         array : Array.from(array),
       });
 
-      [array[root], array[largestIndex]] = [array[largestIndex], array[root]];
+      [array[start], array[largestIndex]] = [array[largestIndex], array[start]];
 
       an.push({
         current : largestIndex,
@@ -463,7 +451,7 @@ export default function SortingVisualiser() : JSX.Element  {
         array : Array.from(array),
       });
 
-      heapify(array, end, largestIndex, an);
+      heapify(array, largestIndex, end, an);
     }
   }
 
