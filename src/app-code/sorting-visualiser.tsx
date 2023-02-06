@@ -369,6 +369,104 @@ export default function SortingVisualiser() : JSX.Element  {
     return left;
   }
 
+  // heap sort algorithm
+  const heapSortStart = (array : Array<number>) => {
+    let an : Array<{array : Array<number>, current : number, compare : number, compare2? : number}> = [];
+
+    an.push({
+      current : -1,
+      compare : -1,
+      array : Array.from(array),
+    });
+
+    console.log ("start");
+    
+    buildHeap(array, an);
+
+    let end = array.length - 1;
+
+    for (let i = 0; i < array.length; i++) {
+      an.push({
+        current : 0,
+        compare : end,
+        array : Array.from(array),
+      });
+      [array[0], array[end]] = [array[end], array[0]];
+      an.push({
+        current : end,
+        compare : 0,
+        array : Array.from(array),
+      });
+      end--;
+
+      heapify(array, end, 0, an);
+
+      an.push({
+        current : -1,
+        compare : -1,
+        array : Array.from(array),
+      });
+    }
+
+    console.log("end");
+
+    an.push({
+      current : -1,
+      compare : -1,
+      array : Array.from(array),
+    });
+
+    setAnimations(an);
+    setUpdateView(!updateView);
+  }
+
+  const buildHeap = (array : Array<number>, an : Array<{array : Array<number>, current : number, compare : number, compare2? : number}>) => {
+    const last = Math.floor(array.length / 2) - 1;
+
+    for (let i = last; i >= 0; i--) {
+      heapify(array, array.length, i, an);
+    }
+  }
+
+  const heapify = (array : Array<number>, end : number, root : number, an : Array<{array : Array<number>, current : number, compare : number, compare2? : number}>) => {
+    let largestIndex = root;
+    let left = root * 2 + 1;
+    let right = root * 2 + 2;
+
+    an.push({
+      current : root,
+      compare : left,
+      compare2 : right,
+      array : Array.from(array),
+    });
+
+    if (left <= end && array[largestIndex] < array[left]) {
+      largestIndex = left;
+    }
+    
+    if (right <= end && array[largestIndex] < array[right]) {
+      largestIndex = right;
+    }
+
+    if (largestIndex != root) {
+      an.push({
+        current : root,
+        compare : largestIndex,
+        array : Array.from(array),
+      });
+
+      [array[root], array[largestIndex]] = [array[largestIndex], array[root]];
+
+      an.push({
+        current : largestIndex,
+        compare : -1,
+        array : Array.from(array),
+      });
+
+      heapify(array, end, largestIndex, an);
+    }
+  }
+
   const sort = () => {
     let array = arrayRange(numValues);
     array = shuffleArray(array);
@@ -378,6 +476,7 @@ export default function SortingVisualiser() : JSX.Element  {
     else if (algorithm == 3) insertionSort(array);
     else if (algorithm == 4) mergeSortStart(array);
     else if (algorithm == 5) quickSortStart(array);
+    else if (algorithm == 6) heapSortStart(array);
   }
 
   return (

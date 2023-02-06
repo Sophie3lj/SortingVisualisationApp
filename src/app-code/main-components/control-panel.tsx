@@ -33,6 +33,7 @@ export default function ControlPanel(
             <option value={3}>Insertion Sort</option>
             <option value={4}>Merge Sort</option>
             <option value={5}>Quick Sort</option>
+            <option value={6}>Heap Sort</option>
           </Form.Select>
       </div>
       <div className={'panel-col'}>
